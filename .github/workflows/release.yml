@@ -1,0 +1,57 @@
+name: CI/CD PDF Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送格式为 v 开头的 tag 时触发 (例如 v1.0.0)
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许创建 Release 并上传附件
+
+    steps:
+      - name: 检出代码 (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 配置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 安装系统级依赖与中文字体 (WeasyPrint 渲染需求)
+        run: |
+          sudo apt-get update
+          # WeasyPrint 核心渲染组件
+          sudo apt-get install -y build-essential python3-dev python3-pip python3-setuptools python3-wheel python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info
+          # 安装中文字体，防止生成的 PDF 出现乱码口口口
+          sudo apt-get install -y fonts-noto-cjk fonts-wqy-microhei
+
+      - name: 安装 Python 依赖
+        run: |
+          pip install -r requirements.txt
+
+      - name: 运行流水线生成报告
+        run: |
+          python scripts/extract_data.py
+          python scripts/extract_colors.py
+          python scripts/config_builder.py
+          python scripts/generate_parsers.py
+          python main.py
+
+      - name: 创建 GitHub Release 并上传附件
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: evaluation_report.pdf
+          name: Release ${{ github.ref_name }}
+          body: |
+            自动生成的 OpenEval 评分报告 VBar 2026.
+            
+            包含此版本 (Tag: `${{ github.ref_name }}`) 最新的评价汇总表。
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
