@@ -1,4 +1,4 @@
-# Vbar 2026 OpenEval
+# VBar 2026 OpenEval
 
 本项目是一个基于 Python 的自动化流水线，旨在将庞大且排版各异的 Excel 评分表格合并解析，并最终自动生成一份排版精美的 PDF 阅卷汇总报告。
 
