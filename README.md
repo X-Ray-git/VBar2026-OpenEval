@@ -61,4 +61,4 @@ python scripts/generate_parsers.py
 python main.py
 ```
 
-执行完毕后，项目根目录会生成最新的 `evaluation_report.pdf` 汇总文件。
+执行完毕后，项目根目录会生成最新的 `26V8在线瑞平评委评价汇编.pdf` 汇总文件。
