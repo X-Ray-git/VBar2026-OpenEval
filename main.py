@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     file_path = "data/26V8在线瑞平0325.xlsx"
-    output_pdf = "evaluation_report.pdf"
+    output_pdf = "26V8在线瑞平评委评价汇编.pdf"
     
     if not os.path.exists(file_path):
         logger.error(f"File {file_path} not found.")

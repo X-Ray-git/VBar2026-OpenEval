@@ -45,7 +45,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: evaluation_report.pdf
+          files: "26V8在线瑞平评委评价汇编.pdf"
           name: Release ${{ github.ref_name }}
           body: |
             自动生成的 OpenEval 评分报告 VBar 2026.
