@@ -33,7 +33,7 @@
 
 ```bash
 # 进入项目根目录
-cd vbar-openeval-2026
+cd VBar2026-OpenEval
 
 # 1. 创建名为 venv 的虚拟环境 (首次运行)
 python3 -m venv venv
